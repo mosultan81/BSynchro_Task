@@ -1,0 +1,47 @@
+﻿@model BSynchro_Task.Models.CustomerInformation
+
+@{
+    ViewData["Title"] = "DisplayCustomerInfos";
+}
+<br />
+<h1>Display Customer Informations and Transactions</h1>
+<br />
+<br />
+<label style="font-weight:bold;font-size:20px;color:green;">Name: @Model.Name @Model.Surname</label>
+<br />
+<label style="font-weight:bold;font-size:20px;color:green;">Balance: @Model.Balance $</label>
+<br />
+<br />
+<label style="font-weight:bold;font-size:20px;color:green;">Transactions Table: </label>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Transaction Id
+            </th>
+            <th>
+                Value
+            </th>
+            <th>
+                Account Id
+            </th>
+            <th>
+                Added Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => transaction.TransactioinId)</td>
+                <td>@Html.DisplayFor(modelItem => transaction.InitialCreditValue)</td>
+                <td>@Html.DisplayFor(modelItem => transaction.AccountId)</td>
+                <td>@Html.DisplayFor(modelItem => transaction.AddedDate)</td>
+            </tr>
+        }
+
+        <br />
+    </tbody>
+</table>
+<button style="border:none;background-color:transparent;font-weight:bold;">@Html.ActionLink("Go Back", "Index")</button>

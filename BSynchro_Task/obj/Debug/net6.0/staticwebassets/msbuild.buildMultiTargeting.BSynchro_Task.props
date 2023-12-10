@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\BSynchro_Task.props" />
+</Project>

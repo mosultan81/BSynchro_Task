@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BSynchro_Task.Models.Customer>
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+<h2>Customers </h2>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Customer Id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Created Date</th>
+            <th>Number of Accounts</th>
+            <th>Customer Infos and Transactions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => customer.CustomerId)</td>
+                <td>@Html.DisplayFor(modelItem => customer.Name)</td>
+                <td>@Html.DisplayFor(modelItem => customer.Surname)</td>
+                <td>@Html.DisplayFor(modelItem => customer.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => customer.NumberOfAccounts)</td>
+                <td><button style="border:none;background-color:transparent;font-weight:bold;">@Html.ActionLink("Display Customer Information and Transactions", "DisplayCustomerInfos", "Home", new { customerId = customer.CustomerId })</button></td>
+            </tr>
+        }
+
+        <br />
+    </tbody>
+</table>
+<br />
+<br />
+<!-- Add input for parameters and the button -->
+<div class="form-group">
+    <label for="param1">Enter Customer Id from the above ones:</label>
+    <input type="text" id="param1" class="form-control" value="1" />
+</div>
+<br />
+<div class="form-group">
+    <label for="param2">Enter an Initial Credit Value:</label>
+    <input type="text" id="param2" class="form-control" value="0"/>
+</div>
+<br />
+<button id="newAccountBtn" class="btn btn-secondary" style="color:white;background-color:green;font-weight:bold;">Add new Account for this Customer</button>
+
+@section scripts {
+    <script>
+        document.getElementById('newAccountBtn').onclick = function () {
+            var param1 = document.getElementById('param1').value;
+            var param2 = document.getElementById('param2').value;
+            openNewAccount(param1, param2);
+        };
+
+        function openNewAccount(param1, param2) {
+            $.ajax({
+                url: '/Home/OpenNewAccount', 
+                type: 'POST',
+                data: { customerId: param1, initialCredit: param2 }, 
+                success: function (data) {
+                     alert('Account creation is completed successfully!');    
+                     if(param2 != 0)
+                     alert('Transaction added successfully!');
+                },
+                error: function () {
+                    alert('An error occured: Looks like Customer Id entered is not available');
+                }
+            });
+        }
+    </script>
+}
